@@ -10,6 +10,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  font-family: system-ui, -apple-system, Inter, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Oxygen, Fira Sans, Droid Sans, sans-serif;
 }
 
 @layer utilities {

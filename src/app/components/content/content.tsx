@@ -1,14 +1,16 @@
 "use client";
 
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Article } from "./contentTypes";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
+import useDistance from "@/app/useDistance";
 
 const Content: FC<
   Article & {
     articleIndex: number;
     loadNextArticleCb: (articleIndex: number) => void;
+    setReadProgressCb: (value: number) => void;
   }
 > = ({
   featuredImage,
@@ -19,6 +21,7 @@ const Content: FC<
   conclusion,
   articleIndex,
   loadNextArticleCb,
+  setReadProgressCb,
 }) => {
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
@@ -32,8 +35,35 @@ const Content: FC<
     }
   }, [entry, loadNextArticleCb, articleIndex]);
 
+  const div1Ref = useRef<HTMLDivElement>(null);
+  const div2Ref = useRef<HTMLDivElement>(null);
+
+  const { distance, startPosition, endPosition } = useDistance(
+    div1Ref,
+    div2Ref
+  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset;
+
+      if (distance && scrollTop >= startPosition && scrollTop <= endPosition) {
+        const scrollPosition = Math.floor(
+          ((scrollTop - startPosition) / distance) * 100
+        );
+        setReadProgressCb(scrollPosition);
+      }
+    };
+
+    document.addEventListener("scroll", handleScroll);
+
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [distance, startPosition, endPosition, setReadProgressCb]);
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" ref={div1Ref}>
       <div className="flex flex-row">
         <div className="flex flex-1 flex-col justify-center px-[5rem]">
           <p className="text-md text-brand-700 font-semibold mb-4">
@@ -144,6 +174,7 @@ const Content: FC<
             {conclusion}
           </div>
           <div ref={ref} />
+          <div ref={div2Ref} />
         </div>
       </div>
     </div>
