@@ -1,15 +1,37 @@
-import React, { FC } from "react";
+"use client";
+
+import React, { FC, useEffect } from "react";
 import Image from "next/image";
 import { Article } from "./contentTypes";
+import { useIntersectionObserver } from "@uidotdev/usehooks";
 
-const Content: FC<Article> = ({
+const Content: FC<
+  Article & {
+    articleIndex: number;
+    loadNextArticleCb: (articleIndex: number) => void;
+  }
+> = ({
   featuredImage,
   author,
   title,
   subtitle,
   body,
   conclusion,
+  articleIndex,
+  loadNextArticleCb,
 }) => {
+  const [ref, entry] = useIntersectionObserver({
+    threshold: 0,
+    root: null,
+    rootMargin: "0px",
+  });
+
+  useEffect(() => {
+    if (entry && entry.isIntersecting) {
+      loadNextArticleCb(articleIndex + 1);
+    }
+  }, [entry, loadNextArticleCb, articleIndex]);
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row">
@@ -121,6 +143,7 @@ const Content: FC<Article> = ({
           <div className="text-lg font-normal text-tertiary prose">
             {conclusion}
           </div>
+          <div ref={ref} />
         </div>
       </div>
     </div>
