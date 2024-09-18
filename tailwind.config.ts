@@ -70,6 +70,10 @@ const config: Config = {
           fontSize: "1.875rem",
           lineHeight: "2.375rem",
         },
+        ".display-md": {
+          fontSize: "2.25rem",
+          lineHeight: "2.75rem",
+        },
         ".display-lg": {
           fontSize: "3rem",
           lineHeight: "3.75rem",

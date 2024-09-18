@@ -64,13 +64,13 @@ const Content: FC<
 
   return (
     <div className="flex flex-col" ref={div1Ref}>
-      <div className="flex flex-row">
-        <div className="flex flex-1 flex-col justify-center px-[5rem]">
-          <p className="text-md text-brand-700 font-semibold mb-4">
+      <div className="flex flex-col-reverse sm:flex-row">
+        <div className="flex flex-1 flex-col justify-center pl-4 sm:pl-28 pt-16 sm:pt-none">
+          <p className="text-sm sm:text-md text-brand-700 font-semibold mb-4">
             20 Jan 2024 • 10 min read
           </p>
-          <p className="display-lg font-semibold mb-3">{title}</p>
-          <p className="text-xl font-normal text-tertiary w-[480px] mb-12">
+          <p className="display-md sm:display-lg font-semibold mb-3">{title}</p>
+          <p className="text-lg sm:text-xl font-normal text-tertiary w-full sm:w-[480px] mb-12">
             {subtitle}
           </p>
           <div className="flex gap-4">
@@ -101,14 +101,16 @@ const Content: FC<
           )}
         </div>
       </div>
-      <div className={`flex flex-col w-[720px] mx-auto py-24`}>
+      <div
+        className={`flex flex-col w-full sm:w-[720px] mx-auto py-24 px-4 sm:px-none`}
+      >
         {body.map((element, index) => {
           switch (element.type) {
             case "p":
               return (
                 <p
                   key={index}
-                  className="text-xl font-normal text-tertiary mb-5"
+                  className="text-md sm:text-xl font-normal text-tertiary mb-5"
                 >
                   {element.content}
                 </p>
@@ -121,7 +123,7 @@ const Content: FC<
               return (
                 <h2
                   key={index}
-                  className="display-sm font-semibold mb-5 text-primary"
+                  className="display-xs sm:display-sm font-semibold mb-5 text-primary"
                 >
                   {element.content}
                 </h2>
@@ -147,7 +149,7 @@ const Content: FC<
                 <>
                   <blockquote
                     key={index}
-                    className="display-xs italic font-bold mb-4"
+                    className="text-xl sm:display-xs italic font-bold mb-4"
                   >
                     “{element.content}”
                   </blockquote>
@@ -158,7 +160,7 @@ const Content: FC<
               );
             case "h3":
               return (
-                <h3 key={index} className="text-2xl font-bold mb-5">
+                <h3 key={index} className="text-xl sm:text-2xl font-bold mb-5">
                   {element.content}
                 </h3>
               );
@@ -167,7 +169,7 @@ const Content: FC<
           }
         })}
         <div className="flex flex-col rounded-2xl bg-secondary p-8 mt-[3rem]">
-          <div className="display-sm font-semibold text-primary mb-5 ">
+          <div className="display-xs sm:display-sm font-semibold text-primary mb-5 ">
             Conclusion
           </div>
           <div className="text-lg font-normal text-tertiary prose">
